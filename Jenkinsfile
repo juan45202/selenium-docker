@@ -5,21 +5,21 @@ pipeline {
         stage('Build Jar') {
             steps {
                 //sh
-                bat "mvn clean package -DskipTests"
+                chmod "mvn clean package -DskipTests"
             }
         }
         stage('Build Image') {
             steps {
                 //sh
-                bat "docker build -t='jjrm8/selenium-docker' ."
+                chmod "docker build -t='jjrm8/selenium-docker' ."
             }
         }
         stage('Push Image') {
             steps {
 			    withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'pass', usernameVariable: 'user')]) {
                     //sh
-			        bat "docker login --username=${user} --password=${pass}"
-			        bat "docker push jjrm8/selenium-docker:latest"
+			        chmod "docker login --username=${user} --password=${pass}"
+			        chmod "docker push jjrm8/selenium-docker:latest"
 			    }
             }
         }
